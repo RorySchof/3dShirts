@@ -11,6 +11,10 @@ const Shirt = () => {
   const { nodes, materials } = useGLTF('/shirt_baked.glb');
 
   const logoTexture = useTexture(snap.logoDecal);
+
+  console.log('Is Logo Texture Loaded:', logoTexture && logoTexture.isLoaded);
+  console.log('Logo Texture Path:', snap.logoDecal);
+
   const fullTexture = useTexture(snap.fullDecal);
 
   useFrame((state, delta) => easing.dampC(materials.lambert1.color, snap.color, 0.25, delta));
