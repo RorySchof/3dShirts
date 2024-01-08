@@ -14,6 +14,41 @@ import { AIPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../compone
 const Customizer = () => {
   const snap = useSnapshot(state);
 
+  const [file, setFile] = useState('');
+
+  const [prompt, setPrompt] = useState('');
+  const [generatingImg, setGeneratingImg] = useState(false);
+
+  const [activeEditorTab, setActiveEditorTab] = useState("");
+  const [activeFilterTab, setActiveFilterTab] = useState({
+    logoShirt: true,
+    stylishShirt: false,
+  })
+
+  //Show tab content. 
+
+  const generateTabContent = () => {
+    switch (activeEditorTab) {
+      case "colorpicker":
+        return <ColorPicker />
+      case "filepicker":
+        return <FilePicker
+          file={file}
+          setFile={setFile}
+          readFile={readFile}
+        />
+      case "aipicker":
+        return <AIPicker 
+          prompt={prompt}
+          setPrompt={setPrompt}
+          generatingImg={generatingImg}
+          handleSubmit={handleSubmit}
+        />
+      default:
+        return null;
+    }
+  }
+
   return (
     <AnimatePresence>
       {!snap.intro && (
@@ -29,9 +64,12 @@ const Customizer = () => {
                   <Tab
                     key={tab.name}
                     tab={tab}
-                    handleClick={() => { }}
+                    handleClick={() => setActiveEditorTab(tab.name)}
                   />
                 ))}
+
+{generateTabContent()}
+
               </div>
             </div>
           </motion.div>
@@ -45,12 +83,8 @@ const Customizer = () => {
               title="Go Back"
               handleClick={() => state.intro = true}
               customStyles=" w-fit px-4 py-2.5 font-bold text-sm"
-
             />
-
-
           </motion.div>
-
           <motion.div
             className=" filtertabs-container"
             {...slideAnimation('up')}
@@ -64,12 +98,7 @@ const Customizer = () => {
                 handleClick={() => { }}
               />
             ))}
-
-
           </motion.div>
-
-
-
         </>
       )}
     </AnimatePresence>
