@@ -9,4 +9,7 @@ const state = proxy({
   fullDecal: './threejs.png',
 });
 
+console.log('Current isFullTexture:', state.isFullTexture);
+
+
 export default state;
